@@ -3,32 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>LogiCards - Lojistik İngilizcesi Kelime Kartları</title>
+    <title>LogiCards - Premium</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 </head>
-<body class="dark-mode">
-    <div class="app-container">
+<body>
+
+    <div id="login-screen" class="screen active">
+        <div class="login-card">
+            <div class="brand-large">Logi<span class="highlight">Cards</span></div>
+            <p class="login-sub">Operasyonel İngilizce Eğitim Sistemi</p>
+            
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Kullanıcı Adı" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Şifre">
+            </div>
+            
+            <button id="login-btn" onclick="attemptLogin()">Sisteme Giriş Yap</button>
+            <p class="login-note">Hesabınız yoksa otomatik oluşturulacaktır.</p>
+            <div id="login-error" class="error-text"></div>
+        </div>
+    </div>
+
+    <div id="app-screen" class="screen app-container">
         <header class="app-header">
             <div class="brand">Logi<span class="highlight">Cards</span></div>
-            <button id="theme-toggle" class="theme-btn" aria-label="Tema Değiştir">🌙</button>
+            <div class="user-badge" id="display-user">Kullanıcı</div>
         </header>
 
         <main class="card-zone">
             <div class="card-stack" id="card-container">
-                <div class="fallback-screen" id="status-message">
+                <div class="fallback-screen">
                     <div class="spinner"></div>
-                    <p>Lojistik Veritabanı Yükleniyor...</p>
+                    <p>Öğrenme Verileriniz Senkronize Ediliyor...</p>
                 </div>
             </div>
         </main>
 
         <footer class="control-panel">
             <div class="action-row">
-                <button class="circle-btn btn-redo" onclick="triggerSwipe('left')" title="Tekrar Et">🔁</button>
-                <button class="circle-btn btn-fav" onclick="triggerSwipe('up')" title="Favoriye Ekle">⭐</button>
-                <button class="circle-btn btn-hard" onclick="triggerSwipe('down')" title="Zor Kelime">🚩</button>
-                <button class="circle-btn btn-check" onclick="triggerSwipe('right')" title="Öğrendim">✅</button>
+                <button class="circle-btn btn-redo" onclick="triggerSwipe('left')">🔁</button>
+                <button class="circle-btn btn-fav" onclick="triggerSwipe('up')">⭐</button>
+                <button class="circle-btn btn-hard" onclick="triggerSwipe('down')">🚩</button>
+                <button class="circle-btn btn-check" onclick="triggerSwipe('right')">✅</button>
             </div>
         </footer>
     </div>
@@ -37,4 +56,3 @@
     <script src="app.js"></script>
 </body>
 </html>
-
