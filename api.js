@@ -1,26 +1,22 @@
-// Google Apps Script Canlı Dağıtım URL'niz tam entegre edilmiştir.
-const SHEET_API_ENDPOINT = "https://script.google.com/macros/s/AKfycbwKQTloKizPHBG0UmsQRhLzyMZbykDmAns0LQuztDyR-KkLScS4FPZrdKJdPhgbGnloDQ/exec";
+// Google Apps Script'ten aldığın en güncel canlı yayın URL'si
+const API_URL = "https://script.google.com/macros/s/AKfycbwKQTloKizPHBG0UmsQRhLzyMZbykDmAns0LQuztDyR-KkLScS4FPZrdKJdPhgbGnloDQ/exec";
 
-/**
- * Google Sheets verilerini JSON olarak çeken asenkron motor fonksiyon.
- * @returns {Promise<Array>} Lojistik kelime nesnelerinden oluşan dizi.
- */
-async function getLogisticsCardsFromServer() {
+async function apiCall(params) {
+    const queryString = new URLSearchParams(params).toString();
+    const fetchUrl = `${API_URL}?${queryString}`;
+    
     try {
-        const response = await fetch(SHEET_API_ENDPOINT, {
-            method: 'GET',
-            redirect: 'follow'
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Ağ hatası kodu: ${response.status}`);
-        }
-        
-        const cardRecords = await response.json();
-        return cardRecords;
-    } catch (networkError) {
-        console.error("Google Sheets bağlantısı başarısız oldu:", networkError);
-        return [];
+        const response = await fetch(fetchUrl);
+        return await response.json();
+    } catch (e) {
+        console.error("API Hatası:", e);
+        return { status: "error", message: "Sunucu bağlantı hatası oluştu." };
     }
 }
 
+// Uygulama içerisinden çağrılan merkezi API servisleri
+const API = {
+    login: (username, password) => apiCall({ action: 'login', username, password }),
+    getCards: (username) => apiCall({ action: 'getCards', username }),
+    saveSwipe: (username, word_id, direction) => apiCall({ action: 'swipe', username, word_id, direction })
+};
