@@ -3,57 +3,863 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>LogiCards - Premium</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <title>Lojilingo - Profesyonel Lojistik İngilizcesi ve Eğitim Akademisi</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        neutral: {
+                            850: '#212121',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Modern Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f97316;
+        }
+        /* Custom perspectives for card flip simulation */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-neutral-950 text-neutral-100 font-sans min-h-screen flex flex-col antialiased selection:bg-orange-500 selection:text-white overflow-x-hidden">
 
-    <div id="login-screen" class="screen active">
-        <div class="login-card">
-            <div class="brand-large">Logi<span class="highlight">Cards</span></div>
-            <p class="login-sub">Operasyonel İngilizce Eğitim Sistemi</p>
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-neutral-950/80 border-b border-neutral-850/50 py-4 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
             
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Kullanıcı Adı" autocomplete="off">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center font-black text-white text-lg tracking-tighter shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+                    L
+                </div>
+                <div class="font-black text-xl tracking-tight text-white">
+                    Loji<span class="text-orange-500 group-hover:text-orange-400 transition-colors">lingo</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-xs font-black uppercase tracking-wider text-neutral-400">
+                <a href="#ozellikler" class="hover:text-white transition-colors">Özellikler</a>
+                <a href="#simulasyon" class="hover:text-white transition-colors">Simülasyonlar</a>
+                <a href="#moduller" class="hover:text-white transition-colors">Modüller</a>
+                <a href="#faq" class="hover:text-white transition-colors">S.S.S.</a>
+            </nav>
+
+            <!-- CTA Actions -->
+            <div class="flex items-center gap-3">
+                <a href="https://lojilingo-472717011839.europe-west2.run.app/" 
+                   class="px-4 py-2 bg-neutral-900 hover:bg-neutral-850 text-white rounded-xl text-xs font-bold transition-all border border-neutral-800">
+                    Giriş Yap
+                </a>
+                <a href="https://lojilingo-472717011839.europe-west2.run.app/" 
+                   class="px-4 py-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white rounded-xl text-xs font-black shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all transform hover:scale-[1.03] active:scale-[0.98]">
+                    Uygulamaya Git
+                </a>
             </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Şifre">
-            </div>
-            
-            <button id="login-btn" onclick="attemptLogin()">Sisteme Giriş Yap</button>
-            <p class="login-note">Hesabınız yoksa otomatik oluşturulacaktır.</p>
-            <div id="login-error" class="error-text"></div>
         </div>
-    </div>
+    </header>
 
-    <div id="app-screen" class="screen app-container">
-        <header class="app-header">
-            <div class="brand">Logi<span class="highlight">Cards</span></div>
-            <div class="user-badge" id="display-user">Kullanıcı</div>
-        </header>
+    <!-- HERO SECTION -->
+    <section class="relative py-20 md:py-32 px-4 md:px-8 overflow-hidden">
+        <!-- Ambient Glowing Backgrounds -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-500/10 blur-[130px] rounded-full pointer-events-none -z-10 animate-pulse"></div>
+        <div class="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none -z-10"></div>
 
-        <main class="card-zone">
-            <div class="card-stack" id="card-container">
-                <div class="fallback-screen">
-                    <div class="spinner"></div>
-                    <p>Öğrenme Verileriniz Senkronize Ediliyor...</p>
+        <div class="max-w-5xl mx-auto text-center space-y-8">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-950/40 border border-orange-500/20 text-orange-400 text-[10px] font-black uppercase tracking-widest shadow-[0_0_15px_rgba(249,115,22,0.1)]">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping"></span>
+                PREMIUM AKADEMİ & SİMÜLASYON SİSTEMİ
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1] max-w-4xl mx-auto">
+                Lojistik Sektörüne Özel <br class="hidden sm:inline">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400">
+                    Profesyonel İngilizce
+                </span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="text-xs sm:text-base text-neutral-400 max-w-xl mx-auto leading-relaxed font-medium">
+                Gümrük telsiz krizleri, konşimento incelemeleri, Incoterms kuralları ve gümrük kapıları için tasarlanmış Türkiye'nin ilk yapay zeka destekli lojistik İngilizce akademisi.
+            </p>
+
+            <!-- Hero Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="https://lojilingo-472717011839.europe-west2.run.app/" 
+                   class="w-full sm:w-auto px-8 py-4 bg-white hover:bg-neutral-100 text-neutral-950 font-black rounded-2xl text-sm transition-all transform hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2">
+                    Eğitime Şimdi Başla
+                    <svg class="w-4 h-4 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
+                </a>
+                <a href="#simulasyon" 
+                   class="w-full sm:w-auto px-8 py-4 bg-neutral-900 hover:bg-neutral-850 text-white font-black rounded-2xl text-sm transition-all border border-neutral-800/80 flex items-center justify-center gap-2">
+                    Uygulamayı Dene
+                    <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"></path></svg>
+                </a>
+            </div>
+
+            <!-- Stats Bar -->
+            <div id="ozellikler" class="grid grid-cols-3 gap-4 max-w-3xl mx-auto pt-16 border-t border-neutral-900/60 text-center">
+                <div class="space-y-1">
+                    <div class="text-xl sm:text-3xl font-black text-white">50+</div>
+                    <div class="text-[9px] sm:text-xs text-neutral-500 uppercase tracking-widest font-semibold">Gümrük Terimi</div>
+                </div>
+                <div class="space-y-1 border-x border-neutral-900/60">
+                    <div class="text-xl sm:text-3xl font-black text-orange-500">AI</div>
+                    <div class="text-[9px] sm:text-xs text-neutral-500 uppercase tracking-widest font-semibold">Telsiz Simülasyonu</div>
+                </div>
+                <div class="space-y-1">
+                    <div class="text-xl sm:text-3xl font-black text-white">5 Seviye</div>
+                    <div class="text-[9px] sm:text-xs text-neutral-500 uppercase tracking-widest font-semibold">Kariyer Yolu</div>
                 </div>
             </div>
-        </main>
+        </div>
+    </section>
 
-        <footer class="control-panel">
-            <div class="action-row">
-                <button class="circle-btn btn-redo" onclick="triggerSwipe('left')">🔁</button>
-                <button class="circle-btn btn-fav" onclick="triggerSwipe('up')">⭐</button>
-                <button class="circle-btn btn-hard" onclick="triggerSwipe('down')">🚩</button>
-                <button class="circle-btn btn-check" onclick="triggerSwipe('right')">✅</button>
+    <!-- CORE OVERVIEW SECTION -->
+    <section class="py-24 bg-neutral-950 border-t border-neutral-900/40 relative">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-16 space-y-4">
+                <span class="text-[10px] font-black tracking-widest text-orange-500 bg-orange-950/40 border border-orange-500/20 px-3 py-1.5 rounded-full uppercase">
+                    KUSURSUZ EĞİTİM MODELİ
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black text-white tracking-tight">
+                    Neden Lojilingo'yu Seçmelisiniz?
+                </h2>
+                <p class="text-xs sm:text-sm text-neutral-400 max-w-xl mx-auto">
+                    Klasik dil kurslarından farklı olarak sadece gümrük memuru, acente, nakliyeci ve forwarderlar arasındaki gerçek operasyonel kriz dilini öğretir.
+                </p>
             </div>
-        </footer>
-    </div>
 
-    <script src="api.js"></script>
-    <script src="app.js"></script>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-neutral-900/40 border border-neutral-850 p-6 rounded-2xl relative overflow-hidden group hover:border-neutral-800 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-orange-950/40 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-6 group-hover:bg-orange-900/20 transition-all">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-black text-white mb-2">Sesli Telsiz Pratiği</h3>
+                    <p class="text-xs text-neutral-400 leading-relaxed">
+                        Rotterdam veya Hamburg limanlarındaki gümrük yetkilileriyle, yapay zeka ses analiz motorunu kullanarak telsiz kanallarından konuşup canlı pratik yapın.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-neutral-900/40 border border-neutral-850 p-6 rounded-2xl relative overflow-hidden group hover:border-neutral-800 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-950/40 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:bg-emerald-900/20 transition-all">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.375c.9 0 1.625-.724 1.625-1.625 0-.9-.725-1.625-1.625-1.625M9 12h3.375c.9 0 1.625-.724 1.625-1.625 0-.9-.725-1.625-1.625-1.625M9 9h3.75M12 3v18M3 12h18"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-black text-white mb-2">Akıllı Kelime Kartları</h3>
+                    <p class="text-xs text-neutral-400 leading-relaxed">
+                        Lojistikte sık yapılan hataların doğrularını görün. Demurrage, CMR, Incoterms ve konşimento gibi terimleri canlı sesli telaffuzlarıyla kartlardan ezberleyin.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-neutral-900/40 border border-neutral-850 p-6 rounded-2xl relative overflow-hidden group hover:border-neutral-800 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-blue-950/40 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-6 group-hover:bg-blue-900/20 transition-all">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.875V10.5h.875c.621 0 1.125-.504 1.125-1.125V5.25c0-1.035-.84-1.875-1.875-1.875h-3.75A1.875 1.875 0 007.5 5.25v4.125c0 .621.504 1.125 1.125 1.125h.875v3.375H8.625C8.004 15 7.5 15.504 7.5 16.125v3.375"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-black text-white mb-2">Oyunlaştırılmış Kariyer</h3>
+                    <p class="text-xs text-neutral-400 leading-relaxed">
+                        Tamamladığınız her operasyonda XP (Deneyim Puanı) kazanın. Acemi Stajyerlikten başlayarak küresel Lojistik Direktörlüğüne uzanan rütbeleri tırmanın!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE INTERACTIVE SIMULATORS (PREMIUM LIVE OVERHAUL) -->
+    <section id="simulasyon" class="py-24 bg-neutral-900/20 border-y border-neutral-900/80 relative">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.03),transparent_60%)] pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-12 space-y-4">
+                <span class="text-[9px] font-black tracking-widest text-orange-500 bg-orange-950/40 border border-orange-500/20 px-3 py-1.5 rounded-full uppercase">
+                    UYGULAMA İÇİ SİMÜLASYONLAR
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                    Uygulamanın İçine Küçük Bir Göz Atın
+                </h2>
+                <p class="text-xs text-neutral-400 max-w-xl mx-auto">
+                    Lojilingo'nun eşsiz eğitim modüllerini doğrudan aşağıdan tıklayarak canlı olarak deneyimleyin.
+                </p>
+            </div>
+
+            <!-- Tab Toggles -->
+            <div class="flex justify-center gap-1 p-1 bg-neutral-950 rounded-xl max-w-md mx-auto mb-8 border border-neutral-850">
+                <button id="tab-flashcard-btn" onclick="switchTab('flashcard')" 
+                        class="flex-1 py-2 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-neutral-850 text-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.1)]">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"></path></svg>
+                    Kelimeler
+                </button>
+                <button id="tab-simulator-btn" onclick="switchTab('simulator')" 
+                        class="flex-1 py-2 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer text-neutral-500 hover:text-white">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l3.375-1.5 3.375 1.5-.813-5.096a6.407 6.407 0 003.078-1.451 6.72 6.72 0 00.347-8.31 6.574 6.574 0 00-3.327-2.3c-.902-.244-1.851-.318-2.775-.246h-.001c-.924-.072-1.873.002-2.775.246a6.573 6.573 0 00-3.327 2.301 6.72 6.72 0 00.347 8.31 6.407 6.407 0 003.078 1.451z"></path></svg>
+                    Telsiz AI
+                </button>
+                <button id="tab-career-btn" onclick="switchTab('career')" 
+                        class="flex-1 py-2 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer text-neutral-500 hover:text-white">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.875V10.5h.875c.621 0 1.125-.504 1.125-1.125V5.25c0-1.035-.84-1.875-1.875-1.875h-3.75A1.875 1.875 0 007.5 5.25v4.125c0 .621.504 1.125 1.125 1.125h.875v3.375H8.625C8.004 15 7.5 15.504 7.5 16.125v3.375"></path></svg>
+                    Kariyer
+                </button>
+            </div>
+
+            <!-- Simulator Frame Container -->
+            <div class="bg-neutral-950 border border-neutral-850 rounded-2xl shadow-2xl overflow-hidden relative">
+                <!-- Bar header mimicking system app -->
+                <div class="px-4 py-3 bg-neutral-900/80 border-b border-neutral-850/60 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500/60"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500/60"></span>
+                        <span class="text-[9px] text-neutral-500 font-mono ml-2 uppercase tracking-wider">Lojilingo Interactive Preview // v1.2</span>
+                    </div>
+                    <span class="text-[8px] font-black bg-orange-950 text-orange-400 px-2 py-0.5 rounded border border-orange-500/20 uppercase tracking-widest animate-pulse">
+                        CANLI SİMÜLASYON
+                    </span>
+                </div>
+
+                <!-- 1. TAB: FLASHCARDS -->
+                <div id="tab-flashcard-content" class="p-6 sm:p-8 flex flex-col lg:flex-row items-center gap-8 min-h-[360px]">
+                    <div class="w-full lg:w-1/2 space-y-5 text-left">
+                        <span class="text-[9px] font-black text-orange-400 uppercase tracking-widest bg-orange-950/50 border border-orange-500/20 px-2.5 py-1 rounded-md">AKILLI ÖĞRENME</span>
+                        <h3 class="text-xl sm:text-2xl font-black text-white">Sektörel Kelime Kartları</h3>
+                        <p class="text-xs text-neutral-400 leading-relaxed">
+                            Sadece ezberlemeyin, lojistikte kullanılan profesyonel terimlerin gerçek telaffuzunu, İngilizce bağlamını ve işlevini interaktif kartlarla anında kavrayın.
+                        </p>
+                        
+                        <!-- Word Switchers -->
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <button id="word-btn-0" onclick="selectWord(0)" class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all border bg-orange-500/10 border-orange-500 text-orange-400">Demurrage</button>
+                            <button id="word-btn-1" onclick="selectWord(1)" class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all border bg-neutral-900 border-neutral-850 text-neutral-400 hover:text-white">Incoterms</button>
+                            <button id="word-btn-2" onclick="selectWord(2)" class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all border bg-neutral-900 border-neutral-850 text-neutral-400 hover:text-white">CMR Waybill</button>
+                        </div>
+
+                        <div class="flex flex-col gap-2 pt-1">
+                            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                                <svg class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Sesli telaffuz ve fonetik gösterim
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                                <svg class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Gerçek hayattan alınmış lojistik senaryoları
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                                <svg class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Yanlış bilinen terimlerin doğruları
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-neutral-500 italic">💡 Aşağıdaki karta tıklayarak kartı iki yönlü çevirebilirsiniz.</p>
+                        </div>
+                    </div>
+
+                    <!-- 3D Card Simulation -->
+                    <div class="w-full lg:w-1/2 flex justify-center">
+                        <div onclick="toggleCardFlip()" class="relative w-full max-w-sm h-48 cursor-pointer perspective-1000 group select-none">
+                            <div id="flashcard-inner" class="relative w-full h-full transition-transform duration-500 preserve-3d">
+                                
+                                <!-- FRONT -->
+                                <div class="absolute inset-0 w-full h-full bg-neutral-900 border border-orange-500/40 rounded-xl p-5 flex flex-col justify-between backface-hidden shadow-[0_0_30px_rgba(249,115,22,0.15)] group-hover:border-orange-500 transition-colors">
+                                    <div class="flex justify-between items-center">
+                                        <span id="card-id" class="text-[9px] font-mono text-orange-400 uppercase tracking-widest font-black">TERİM KARTI #24</span>
+                                        <svg class="w-4 h-4 text-neutral-400 group-hover:text-orange-400 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path></svg>
+                                    </div>
+                                    <div class="text-center py-2">
+                                        <h4 id="card-title" class="text-2xl sm:text-3xl font-black text-white tracking-tight">Demurrage</h4>
+                                        <span id="card-phonetic" class="text-[11px] text-neutral-500 font-mono">/dɪˈmʌrɪdʒ/</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-[9px] text-neutral-500 uppercase tracking-wider font-semibold">
+                                        <span id="card-category">Kategori: Liman Operasyonu</span>
+                                        <span class="text-orange-400 group-hover:underline">Çevirmek İçin Tıkla →</span>
+                                    </div>
+                                </div>
+
+                                <!-- BACK -->
+                                <div class="absolute inset-0 w-full h-full bg-neutral-900 border border-emerald-500/40 rounded-xl p-5 flex flex-col justify-between rotate-y-180 backface-hidden shadow-[0_0_30px_rgba(16,185,129,0.15)]">
+                                    <div>
+                                        <div class="flex justify-between items-center mb-1.5">
+                                            <span class="text-[9px] font-mono text-emerald-400 uppercase tracking-widest font-black">ANLAMI</span>
+                                            <span id="card-back-header" class="text-[9px] text-neutral-500 font-semibold uppercase">DEMURRAGE</span>
+                                        </div>
+                                        <p id="card-meaning" class="text-xs text-neutral-300 leading-relaxed text-left">
+                                            Alıcının veya taşıyıcının tır, gemi veya konteyneri anlaşılan serbest süreden (free time) fazla tutması nedeniyle ödediği gecikme cezasıdır.
+                                        </p>
+                                    </div>
+                                    <div class="border-t border-neutral-800 pt-1.5 text-[10px] text-neutral-400 text-left">
+                                        <span class="text-neutral-500 block text-[8px] uppercase font-black tracking-wider">CÜMLE ÖRNEĞİ:</span>
+                                        <span id="card-example" class="italic text-neutral-300 block">"We must release the containers to avoid costly demurrage."</span>
+                                        <span id="card-example-tr" class="text-neutral-500 block text-[9px] mt-0.5">Maliyetli demoraj cezalarından kaçınmak için konteynerleri serbest bırakmalıyız.</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. TAB: TELSİZ AI -->
+                <div id="tab-simulator-content" class="p-6 sm:p-8 flex flex-col lg:flex-row items-center gap-8 min-h-[360px] hidden">
+                    <div class="w-full lg:w-1/2 space-y-5 text-left">
+                        <span class="text-[9px] font-black text-sky-400 uppercase tracking-widest bg-sky-950/50 border border-sky-500/20 px-2.5 py-1 rounded-md">YAPAY ZEKA (GEMINI SDK)</span>
+                        <h3 class="text-xl sm:text-2xl font-black text-white">Sesli Telsiz & Gümrük Pratiği</h3>
+                        <p class="text-xs text-neutral-400 leading-relaxed">
+                            Uygulamadaki simülatör, sesinizi analiz eden bir telsiz simülasyonudur. Aşağıdaki kriz senaryolarını seçip, Rotterdam gümrük memuru, depo sorumlusu veya sınır polisiyle telsiz üzerinden konuşarak gümrük süreçlerini risksiz pratik edin.
+                        </p>
+
+                        <!-- Scenarios -->
+                        <div class="flex flex-col gap-1.5 pt-1">
+                            <button id="scenario-btn-0" onclick="selectScenario(0)" class="px-3 py-2 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all border bg-sky-500/10 border-sky-500 text-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.1)] flex justify-between items-center">
+                                <span>Gümrük Evrak Onayı (Rotterdam)</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+                            </button>
+                            <button id="scenario-btn-1" onclick="selectScenario(1)" class="px-3 py-2 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all border bg-neutral-900 border-neutral-850 text-neutral-400 hover:text-white flex justify-between items-center">
+                                <span>Hasarlı Yük Bildirimi (Alıcı Deposu)</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+                            </button>
+                            <button id="scenario-btn-2" onclick="selectScenario(2)" class="px-3 py-2 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all border bg-neutral-900 border-neutral-850 text-neutral-400 hover:text-white flex justify-between items-center">
+                                <span>Karayolu Polis Kontrolü (Almanya)</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Voice interface visualizer -->
+                    <div class="w-full lg:w-1/2">
+                        <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-4 shadow-inner space-y-3.5">
+                            <!-- Custom officer dialog -->
+                            <div class="flex gap-2.5 text-left">
+                                <div class="w-7 h-7 rounded-full bg-neutral-950 border border-neutral-850 flex items-center justify-center shrink-0">
+                                    <span id="sim-emoji" class="text-xs">👮</span>
+                                </div>
+                                <div class="bg-neutral-950 border border-neutral-850 p-3 rounded-xl rounded-tl-none max-w-[85%]">
+                                    <span id="sim-speaker" class="block text-[8px] font-black uppercase tracking-wider mb-0.5 text-sky-400">Rotterdam Customs (Gümrük Memuru)</span>
+                                    <p id="sim-speaker-text" class="text-xs text-neutral-300">"Hello agent, please confirm if the cargo manifest is matching with the CMR Waybill description?"</p>
+                                    
+                                    <!-- Sound Wave Simulation -->
+                                    <div class="mt-1.5 flex items-center gap-1">
+                                        <span class="w-3.5 h-3.5 bg-sky-500/20 rounded flex items-center justify-center">
+                                            <svg class="w-3 h-3 text-sky-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path></svg>
+                                        </span>
+                                        <div class="flex items-end gap-0.5 h-3 w-20">
+                                            <div class="w-[2.5px] bg-sky-400 animate-pulse h-2"></div>
+                                            <div class="w-[2.5px] bg-sky-400 animate-pulse h-3"></div>
+                                            <div class="w-[2.5px] bg-sky-400 animate-pulse h-1"></div>
+                                            <div class="w-[2.5px] bg-sky-400 animate-pulse h-3.5"></div>
+                                            <div class="w-[2.5px] bg-sky-400 animate-pulse h-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- User mock reply -->
+                            <div class="flex gap-2.5 justify-end text-right">
+                                <div class="bg-gradient-to-r from-orange-600/10 to-amber-600/10 border border-orange-500/30 p-3 rounded-xl rounded-tr-none max-w-[85%]">
+                                    <span class="block text-[8px] font-black text-orange-400 uppercase tracking-wider mb-0.5">Siz (Sesli Yanıt)</span>
+                                    <p id="sim-user-text" class="text-xs text-white">"Yes officer, the cargo details align perfectly with the documents. The transit is customs approved."</p>
+                                </div>
+                                <div class="w-6.5 h-6.5 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center shrink-0">
+                                    <span class="text-xs">🎤</span>
+                                </div>
+                            </div>
+
+                            <!-- AI feedback module -->
+                            <div class="bg-emerald-950/30 border border-emerald-500/20 p-3 rounded-xl flex items-start gap-2.5 text-left">
+                                <span class="text-emerald-400 text-xs mt-[1.5px]">🤖</span>
+                                <div>
+                                    <div class="flex items-center gap-1.5 mb-0.5">
+                                        <span class="text-[8px] font-black text-emerald-400 uppercase tracking-wider">AI DEĞERLENDİRME ANALİZİ</span>
+                                        <span id="sim-score" class="bg-emerald-500 text-neutral-950 font-black text-[8px] px-1 py-0.2 rounded">94% TELAFFUZ SKORU</span>
+                                    </div>
+                                    <p id="sim-feedback" class="text-[10px] text-neutral-300">
+                                        "Harika! 'align perfectly' ve 'customs approved' kalıplarını gümrük bağlamında kusursuz kullandınız. Telaffuzunuz oldukça net."
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. TAB: CAREER PATH -->
+                <div id="tab-career-content" class="p-6 sm:p-8 flex flex-col lg:flex-row items-center gap-8 min-h-[360px] hidden">
+                    <div class="w-full lg:w-1/2 space-y-5 text-left">
+                        <span class="text-[9px] font-black text-emerald-400 uppercase tracking-widest bg-emerald-950/50 border border-emerald-500/20 px-2.5 py-1 rounded-md">OYUNLAŞTIRILMIŞ DENEYİM</span>
+                        <h3 class="text-xl sm:text-2xl font-black text-white">Kariyer Yol Haritası & Seviyeler</h3>
+                        <p class="text-xs text-neutral-400 leading-relaxed">
+                            Sıkıcı kelime listelerinden uzaklaşın! Lojilingo'da kazandığınız her XP ile lojistik sektöründe gerçek bir kariyer basamağı tırmanın, seviyenize özel yetki kartlarını toplayın.
+                        </p>
+                        <div class="flex flex-col gap-2 pt-1">
+                            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                                <svg class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                5 Farklı rütbe (Stajyerlikten Lojistik Direktörlüğüne)
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                                <svg class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Seviyelere özel açılan gümrük kriz senaryoları
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                                <svg class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Seri tamamlama ve dondurma mekanikleri
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Career node steps timeline -->
+                    <div class="w-full lg:w-1/2">
+                        <div class="relative pl-5 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-neutral-800">
+                            <!-- Node 1 -->
+                            <div class="relative flex items-start gap-3 text-left">
+                                <div class="absolute -left-[21px] w-3.5 h-3.5 rounded-full border-2 bg-emerald-500 border-emerald-500 flex items-center justify-center z-10">
+                                    <svg class="w-2 h-2 text-neutral-950 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+                                </div>
+                                <div class="flex-1 p-3 bg-neutral-900 border border-neutral-850 rounded-xl">
+                                    <div class="flex justify-between items-center mb-0.5">
+                                        <h4 class="text-[11px] font-black text-white">Seviye 1: Acemi Stajyer</h4>
+                                        <span class="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-neutral-950 text-neutral-400">0 XP</span>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-400 leading-relaxed">Temel lojistik tanımları, tır parçaları, konşimento giriş bilgileri.</p>
+                                </div>
+                            </div>
+                            <!-- Node 2 (Active) -->
+                            <div class="relative flex items-start gap-3 text-left">
+                                <div class="absolute -left-[21px] w-3.5 h-3.5 rounded-full border-2 bg-orange-500 border-orange-500 animate-pulse flex items-center justify-center z-10"></div>
+                                <div class="flex-1 p-3 bg-neutral-900 border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.1)] rounded-xl">
+                                    <div class="flex justify-between items-center mb-0.5">
+                                        <h4 class="text-[11px] font-black text-white">Seviye 2: Gümrük Operatörü</h4>
+                                        <span class="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-neutral-950 text-neutral-400">450 XP</span>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-400 leading-relaxed">Transit rejimleri, gümrük kodları, CMR beyannameleri.</p>
+                                </div>
+                            </div>
+                            <!-- Node 3 (Locked) -->
+                            <div class="relative flex items-start gap-3 text-left">
+                                <div class="absolute -left-[21px] w-3.5 h-3.5 rounded-full border-2 bg-neutral-900 border-neutral-800 flex items-center justify-center z-10"></div>
+                                <div class="flex-1 p-3 bg-neutral-900 border border-neutral-850 rounded-xl">
+                                    <div class="flex justify-between items-center mb-0.5">
+                                        <h4 class="text-[11px] font-black text-neutral-500">Seviye 3: Filo Sorumlusu</h4>
+                                        <span class="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-neutral-950 text-neutral-400">1200 XP</span>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-400 leading-relaxed">Demoraj krizleri, yükleme planları, hasar tutanakları yönetimi.</p>
+                                </div>
+                            </div>
+                            <!-- Node 4 (Locked) -->
+                            <div class="relative flex items-start gap-3 text-left">
+                                <div class="absolute -left-[21px] w-3.5 h-3.5 rounded-full border-2 bg-neutral-900 border-neutral-800 flex items-center justify-center z-10"></div>
+                                <div class="flex-1 p-3 bg-neutral-900 border border-neutral-850 rounded-xl">
+                                    <div class="flex justify-between items-center mb-0.5">
+                                        <h4 class="text-[11px] font-black text-neutral-500">Seviye 4: Lojistik Direktörü</h4>
+                                        <span class="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-neutral-950 text-neutral-400">3000 XP</span>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-400 leading-relaxed">Yıllık taşıma sözleşmeleri, küresel rota optimizasyonları.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- MODULES QUICK SELECTGRID -->
+        <div id="moduller" class="grid grid-cols-2 md:grid-cols-5 gap-3 w-full max-w-5xl mt-16 mx-auto px-4 md:px-8">
+            <div class="p-4 bg-neutral-900/60 backdrop-blur border border-neutral-850 rounded-2xl text-left transition-all duration-300 shadow-sm hover:border-emerald-500/40 hover:bg-emerald-950/10">
+                <div class="w-8 h-8 rounded-lg bg-neutral-950 flex items-center justify-center text-emerald-400 mb-3 border border-neutral-800">
+                    🚢
+                </div>
+                <h3 class="text-xs font-black text-white leading-tight mb-1">Denizyolu Taşımacılığı</h3>
+                <p class="text-[10px] text-neutral-500 font-mono leading-relaxed">Freight, Bill of Lading, Stevedoring</p>
+            </div>
+            <div class="p-4 bg-neutral-900/60 backdrop-blur border border-neutral-850 rounded-2xl text-left transition-all duration-300 shadow-sm hover:border-orange-500/40 hover:bg-orange-950/10">
+                <div class="w-8 h-8 rounded-lg bg-neutral-950 flex items-center justify-center text-orange-400 mb-3 border border-neutral-800">
+                    🚚
+                </div>
+                <h3 class="text-xs font-black text-white leading-tight mb-1">Karayolu & CMR</h3>
+                <p class="text-[10px] text-neutral-500 font-mono leading-relaxed">Waybill, Transit Regimes, Fleet</p>
+            </div>
+            <div class="p-4 bg-neutral-900/60 backdrop-blur border border-neutral-850 rounded-2xl text-left transition-all duration-300 shadow-sm hover:border-blue-500/40 hover:bg-blue-950/10">
+                <div class="w-8 h-8 rounded-lg bg-neutral-950 flex items-center justify-center text-sky-400 mb-3 border border-neutral-800">
+                    🛡️
+                </div>
+                <h3 class="text-xs font-black text-white leading-tight mb-1">Gümrük & Dış Ticaret</h3>
+                <p class="text-[10px] text-neutral-500 font-mono leading-relaxed">Customs Tariff, VAT Bonded, ATR</p>
+            </div>
+            <div class="p-4 bg-neutral-900/60 backdrop-blur border border-neutral-850 rounded-2xl text-left transition-all duration-300 shadow-sm hover:border-pink-500/40 hover:bg-pink-950/10">
+                <div class="w-8 h-8 rounded-lg bg-neutral-950 flex items-center justify-center text-pink-400 mb-3 border border-neutral-800">
+                    📖
+                </div>
+                <h3 class="text-xs font-black text-white leading-tight mb-1">Havalimanı & Depo</h3>
+                <p class="text-[10px] text-neutral-500 font-mono leading-relaxed">Palletization, Cargo Handling</p>
+            </div>
+            <div class="p-4 bg-neutral-900/60 backdrop-blur border border-neutral-850 rounded-2xl text-left transition-all duration-300 shadow-sm hover:border-amber-500/40 hover:bg-amber-950/10">
+                <div class="w-8 h-8 rounded-lg bg-neutral-950 flex items-center justify-center text-amber-400 mb-3 border border-neutral-800">
+                    🌐
+                </div>
+                <h3 class="text-xs font-black text-white leading-tight mb-1">Incoterms & Sözleşme</h3>
+                <p class="text-[10px] text-neutral-500 font-mono leading-relaxed">FOB, CIF, ExWorks, Demurrage</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TARGET AUDIENCE (KİMLER İÇİN) -->
+    <section id="kimler-icin" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 w-full">
+        <div class="text-center mb-16 space-y-4">
+            <span class="text-[10px] font-black tracking-widest text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 px-3 py-1.5 rounded-full uppercase">
+                PROFESYONEL ODAK
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                Kariyerinize En Uygun Branşı Seçin
+            </h2>
+            <p class="text-xs sm:text-sm text-neutral-400 max-w-xl mx-auto">
+                Lojilingo her rütbeye ve her operasyon alanına özel İngilizce pratikleri sunar.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Forwarders -->
+            <div class="bg-neutral-900/60 border border-neutral-850 p-8 rounded-3xl relative overflow-hidden group hover:border-orange-500/30 transition-all duration-300">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 blur-2xl rounded-full"></div>
+                <div class="text-3xl mb-4">💼</div>
+                <h3 class="text-xl font-bold text-white mb-2">Forwarder & Operatör</h3>
+                <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed mb-6">
+                    Acentelerle İngilizce yük rezervasyonu (booking) yazışmaları yapın, konşimento (Bill of Lading) detaylarını ve Incoterms (FOB, EXW, CIF) terimlerini hatasız yönetin.
+                </p>
+                <ul class="space-y-2 text-[11px] text-neutral-300 border-t border-neutral-850 pt-4">
+                    <li class="flex items-center gap-2">
+                        <span class="text-emerald-500">✓</span> Acente Booking Yazışmaları
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="text-emerald-500">✓</span> Demoraj ve Konteyner Takibi
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Customs specialists -->
+            <div class="bg-neutral-900/60 border border-neutral-850 p-8 rounded-3xl relative overflow-hidden group hover:border-emerald-500/30 transition-all duration-300">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-2xl rounded-full"></div>
+                <div class="text-3xl mb-4">🛡️</div>
+                <h3 class="text-xl font-bold text-white mb-2">Gümrük & Dış Ticaret Uzmanı</h3>
+                <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed mb-6">
+                    Transit rejimleri, gümrük beyannameleri, menşe şahadetnameleri ve ATR gibi kritik belgeleri gümrük memurlarına akıcı bir mesleki dille sunma pratiği kazanın.
+                </p>
+                <ul class="space-y-2 text-[11px] text-neutral-300 border-t border-neutral-850 pt-4">
+                    <li class="flex items-center gap-2">
+                        <span class="text-emerald-500">✓</span> Transit Beyanname Terimleri
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="text-emerald-500">✓</span> Gümrük Kriz Yönetimi
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Drivers -->
+            <div class="bg-neutral-900/60 border border-neutral-850 p-8 rounded-3xl relative overflow-hidden group hover:border-blue-500/30 transition-all duration-300">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-2xl rounded-full"></div>
+                <div class="text-3xl mb-4">🚚</div>
+                <h3 class="text-xl font-bold text-white mb-2">Tır Sürücüleri & Nakliyeciler</h3>
+                <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed mb-6">
+                    Sınır kapılarında gümrük memurlarıyla, yükleme noktalarında depo görevlileriyle ve polis denetimlerinde belgelerinizi (CMR, transit) güvenle savunma simülasyonları.
+                </p>
+                <ul class="space-y-2 text-[11px] text-neutral-300 border-t border-neutral-850 pt-4">
+                    <li class="flex items-center gap-2">
+                        <span class="text-emerald-500">✓</span> Gümrük Telsiz ve Sınır Pratiği
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="text-emerald-500">✓</span> CMR ve Yol Belgesi Terimleri
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACCORDION FAQ SECTION (S.S.S.) -->
+    <section id="faq" class="py-24 bg-neutral-900/20 border-t border-neutral-900">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16 space-y-4">
+                <span class="text-[10px] font-black tracking-widest text-orange-400 bg-orange-950/40 border border-orange-500/20 px-3 py-1.5 rounded-full uppercase">
+                    DESTEK & DETAYLAR
+                </span>
+                <h2 class="text-3xl font-black text-white tracking-tight">
+                    Sıkça Sorulan Sorular
+                </h2>
+                <p class="text-xs sm:text-sm text-neutral-400">
+                    Lojilingo platformu hakkında merak ettiğiniz tüm cevaplar.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <!-- FAQ Item 1 -->
+                <div class="bg-neutral-900 border border-neutral-850 rounded-2xl overflow-hidden">
+                    <button type="button" onclick="toggleFaq(0)" class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-neutral-850/40 transition-colors">
+                        <span class="text-xs sm:text-sm font-black text-white">İngilizce seviyem çok başlangıç düzeyinde, yine de verim alabilir miyim?</span>
+                        <span id="faq-icon-0" class="text-neutral-500 text-lg transition-transform duration-200">?</span>
+                    </button>
+                    <div id="faq-content-0" class="border-t border-neutral-850/60 hidden">
+                        <p class="px-6 py-5 text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Kesinlikle! Lojilingo, sıfırdan başlayanlar için en basit lojistik terimleri fonetik okunuşlarıyla sunar. Seviye seviye ilerleyen gümrük telsiz pratiklerimiz sayesinde hata yapmaktan korkmadan, yapay zeka ile ev konforunda konuşarak kendinizi hızla geliştirebilirsiniz.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-neutral-900 border border-neutral-850 rounded-2xl overflow-hidden">
+                    <button type="button" onclick="toggleFaq(1)" class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-neutral-850/40 transition-colors">
+                        <span class="text-xs sm:text-sm font-black text-white">Uygulamaya girişte 'Google uygulamayı doğrulamadı' veya sosyal giriş hatası alıyorum, ne yapmalıyım?</span>
+                        <span id="faq-icon-1" class="text-neutral-500 text-lg transition-transform duration-200">?</span>
+                    </button>
+                    <div id="faq-content-1" class="border-t border-neutral-850/60 hidden">
+                        <p class="px-6 py-5 text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Lojilingo şu anda geliştirici test aşamasında (Sandbox) yer almaktadır. Google veya Apple ile giriş yaparken bu uyarıyı görürseniz 'Gelişmiş / Devam Et' seçeneğini kullanarak uygulamayı onaylayabilirsiniz. Alternatif olarak, saniyeler içinde e-posta adresinizle yeni bir şifreli hesap açabilir veya hiçbir şey doldurmadan yeşil renkli 'Tek Tıkla Demo Girişi' butonuna basarak anında uygulamayı test etmeye başlayabilirsiniz!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-neutral-900 border border-neutral-850 rounded-2xl overflow-hidden">
+                    <button type="button" onclick="toggleFaq(2)" class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-neutral-850/40 transition-colors">
+                        <span class="text-xs sm:text-sm font-black text-white">Yapay Zeka Destekli Sesli Simülasyon (Telsiz Modu) nasıl çalışıyor?</span>
+                        <span id="faq-icon-2" class="text-neutral-500 text-lg transition-transform duration-200">?</span>
+                    </button>
+                    <div id="faq-content-2" class="border-t border-neutral-850/60 hidden">
+                        <p class="px-6 py-5 text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Telsiz ve Gümrük modüllerimizde, Gemini AI ses motoru altyapısını kullanıyoruz. Tarayıcı mikrofon iznini verdikten sonra telsiz butonuna basılı tutarak veya tıklayarak İngilizce konuşursunuz. Yapay zeka sesinizi algılar, yazdıklarınızı lojistik jargonu ve gramer yönünden inceleyerek size anında puanlı geri bildirim ve telaffuz önerileri sunar.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-neutral-900 border border-neutral-850 rounded-2xl overflow-hidden">
+                    <button type="button" onclick="toggleFaq(3)" class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-neutral-850/40 transition-colors">
+                        <span class="text-xs sm:text-sm font-black text-white">Kazanılan XP'ler ve Kariyer Haritası ne işe yarıyor?</span>
+                        <span id="faq-icon-3" class="text-neutral-500 text-lg transition-transform duration-200">?</span>
+                    </button>
+                    <div id="faq-content-3" class="border-t border-neutral-850/60 hidden">
+                        <p class="px-6 py-5 text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Lojilingo tamamen oyunlaştırılmış bir kurguya sahiptir. Çözdüğünüz her kelime kartı, tamamladığınız her telsiz görevi size XP (Deneyim Puanı) kazandırır. Puanlarınız biriktikçe 'Acemi Stajyer' unvanından 'Lojistik Direktörü' unvanına yükselirsiniz, bu da öğrenme motivasyonunuzu sürekli yüksek tutar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLOSING CTA -->
+    <section class="py-24 bg-gradient-to-t from-orange-950/20 to-transparent border-t border-neutral-900 text-center px-6 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-orange-500/10 blur-[100px] rounded-full pointer-events-none -z-10"></div>
+        
+        <div class="max-w-4xl mx-auto space-y-6">
+            <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight">
+                Kariyerinizi Sınırların Ötesine Taşıyın
+            </h2>
+            <p class="text-xs sm:text-sm text-neutral-400 max-w-xl mx-auto leading-relaxed">
+                Hemen Lojilingo'ya katılın; gümrük kapılarında, acente yazışmalarında ve liman operasyonlarında İngilizceyi bir engel değil, güce dönüştürün.
+            </p>
+            <div class="pt-4">
+                <a href="https://lojilingo-472717011839.europe-west2.run.app/" 
+                   class="inline-flex px-10 py-5 bg-white hover:bg-neutral-100 text-neutral-950 rounded-2xl text-base sm:text-lg font-black transition-all transform hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(255,255,255,0.15)] items-center justify-center gap-2">
+                    Hemen Başla 
+                    <svg class="w-5 h-5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-neutral-950 border-t border-neutral-900 text-center text-neutral-600 text-[11px] space-y-2">
+        <p>© 2026 Lojilingo. Lojistik ve Taşımacılık Sektörüne Özel Dil ve Operasyon Akademisi.</p>
+        <p class="text-[10px] text-neutral-700">Google Cloud Production Environment // Hosted on GitHub Pages</p>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // Tab system variables
+        let currentTab = 'flashcard';
+        
+        // Data arrays from the application
+        const PREVIEW_TERMS = [
+            {
+                term: "Demurrage",
+                phonetic: "/dɪˈmʌrɪdʒ/",
+                category: "Kategori: Liman Operasyonu",
+                meaning: "Alıcının veya taşıyıcının tır, gemi veya konteyneri anlaşılan serbest süreden (free time) fazla tutması nedeniyle ödediği gecikme cezasıdır.",
+                example: "We must release the containers to avoid costly demurrage.",
+                exampleTr: "Maliyetli demoraj cezalarından kaçınmak için konteynerleri serbest bırakmalıyız.",
+                id: "TERİM KARTI #24"
+            },
+            {
+                term: "Incoterms",
+                phonetic: "/ˈɪŋkoʊtɜːrmz/",
+                category: "Kategori: Dış Ticaret Sözleşmeleri",
+                meaning: "Uluslararası Ticaret Odası (ICC) tarafından belirlenen, alıcı ve satıcı arasındaki maliyet, risk ve sorumluluk paylaşımını tanımlayan küresel teslim şekilleridir.",
+                example: "Please specify the Incoterms in your commercial invoice, is it FOB or CIF?",
+                exampleTr: "Lütfen ticari faturanızda teslim şeklini belirtin, FOB mu yoksa CIF mi?",
+                id: "TERİM KARTI #42"
+            },
+            {
+                term: "CMR Waybill",
+                phonetic: "/ˌsiː em ˈɑːr ˈweɪbɪl/",
+                category: "Kategori: Karayolu Taşımacılığı",
+                meaning: "Uluslararası karayolu taşımacılığında gönderici, taşıyıcı ve alıcı arasındaki sorumlulukları belirleyen, taşınan mallar için düzenlenen resmi karayolu taşıma senedidir.",
+                example: "The truck driver must carry the stamped CMR Waybill throughout the transit.",
+                exampleTr: "Tır sürücüsü tüm transit geçiş boyunca damgalı CMR yol belgesini taşımalıdır.",
+                id: "TERİM KARTI #18"
+            }
+        ];
+
+        const PREVIEW_SCENARIOS = [
+            {
+                title: "Gümrük Evrak Onayı (Rotterdam)",
+                speakerName: "Rotterdam Customs (Gümrük Memuru)",
+                speakerEmoji: "👮",
+                speakerText: "Hello agent, please confirm if the cargo manifest is matching with the CMR Waybill description?",
+                userText: "Yes officer, the cargo details align perfectly with the documents. The transit is customs approved.",
+                aiFeedback: "Harika! 'align perfectly' ve 'customs approved' kalıplarını gümrük bağlamında kusursuz kullandınız. Telaffuzunuz oldukça net.",
+                score: "94% TELAFFUZ SKORU"
+            },
+            {
+                title: "Hasarlı Yük Bildirimi (Alıcı Deposu)",
+                speakerName: "Warehouse Supervisor (Depo Amiri)",
+                speakerEmoji: "🏭",
+                speakerText: "We have received the pallet batch, but there is visible water damage on the outer carton boxes. What is your instructions?",
+                userText: "Please take photo of the damaged boxes immediately, and note it down as a discrepancy on the delivery note.",
+                aiFeedback: "Mükemmel! 'discrepancy' (uyumsuzluk) ve 'delivery note' (teslimat notu) gibi üst düzey lojistik terimleri kullandınız.",
+                score: "97% TELAFFUZ SKORU"
+            },
+            {
+                title: "Karayolu Polis Kontrolü (Almanya)",
+                speakerName: "Border Control Officer (Sınır Polisi)",
+                speakerEmoji: "🚔",
+                speakerText: "Your customs bond seal number does not match with the transit declaration sheet. We need to hold the truck for secondary check.",
+                userText: "There might be a clerical error. I will contact our customs broker immediately to issue a corrected transit certificate.",
+                aiFeedback: "Müthiş! Gecikmeleri önlemek için 'clerical error' (yazım hatası) ve 'customs broker' (gümrük müşaviri) terimleriyle kriz yönettiniz.",
+                score: "96% TELAFFUZ SKORU"
+            }
+        ];
+
+        // 1. Interactive Switch Tabs
+        function switchTab(tabId) {
+            currentTab = tabId;
+            
+            // Toggle Content Views
+            document.getElementById('tab-flashcard-content').classList.add('hidden');
+            document.getElementById('tab-simulator-content').classList.add('hidden');
+            document.getElementById('tab-career-content').classList.add('hidden');
+            document.getElementById(`tab-${tabId}-content`).classList.remove('hidden');
+
+            // Reset Tab Buttons
+            document.getElementById('tab-flashcard-btn').className = "flex-1 py-2 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer text-neutral-500 hover:text-white";
+            document.getElementById('tab-simulator-btn').className = "flex-1 py-2 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer text-neutral-500 hover:text-white";
+            document.getElementById('tab-career-btn').className = "flex-1 py-2 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer text-neutral-500 hover:text-white";
+
+            // Set Selected Button Style
+            const activeBtn = document.getElementById(`tab-${tabId}-btn`);
+            activeBtn.className = "flex-1 py-2 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-neutral-850 text-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.1)]";
+        }
+
+        // 2. Word Selector Logic
+        function selectWord(idx) {
+            // Reset flipped state on change
+            const cardInner = document.getElementById('flashcard-inner');
+            cardInner.classList.remove('rotate-y-180');
+
+            // Update content values
+            document.getElementById('card-id').textContent = PREVIEW_TERMS[idx].id;
+            document.getElementById('card-title').textContent = PREVIEW_TERMS[idx].term;
+            document.getElementById('card-phonetic').textContent = PREVIEW_TERMS[idx].phonetic;
+            document.getElementById('card-category').textContent = PREVIEW_TERMS[idx].category;
+            document.getElementById('card-back-header').textContent = PREVIEW_TERMS[idx].term.toUpperCase();
+            document.getElementById('card-meaning').textContent = PREVIEW_TERMS[idx].meaning;
+            document.getElementById('card-example').textContent = `"${PREVIEW_TERMS[idx].example}"`;
+            document.getElementById('card-example-tr').textContent = PREVIEW_TERMS[idx].exampleTr;
+
+            // Highlight Buttons
+            for (let i = 0; i < 3; i++) {
+                const btn = document.getElementById(`word-btn-${i}`);
+                if (i === idx) {
+                    btn.className = "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all border bg-orange-500/10 border-orange-500 text-orange-400";
+                } else {
+                    btn.className = "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all border bg-neutral-900 border-neutral-850 text-neutral-400 hover:text-white";
+                }
+            }
+        }
+
+        // Card flip action trigger
+        function toggleCardFlip() {
+            const cardInner = document.getElementById('flashcard-inner');
+            cardInner.classList.toggle('rotate-y-180');
+        }
+
+        // 3. Scenario Selector Logic
+        function selectScenario(idx) {
+            document.getElementById('sim-emoji').textContent = PREVIEW_SCENARIOS[idx].speakerEmoji;
+            document.getElementById('sim-speaker').textContent = PREVIEW_SCENARIOS[idx].speakerName;
+            document.getElementById('sim-speaker-text').textContent = `"${PREVIEW_SCENARIOS[idx].speakerText}"`;
+            document.getElementById('sim-user-text').textContent = `"${PREVIEW_SCENARIOS[idx].userText}"`;
+            document.getElementById('sim-score').textContent = PREVIEW_SCENARIOS[idx].score;
+            document.getElementById('sim-feedback').textContent = PREVIEW_SCENARIOS[idx].aiFeedback;
+
+            // Update Highlights
+            for (let i = 0; i < 3; i++) {
+                const btn = document.getElementById(`scenario-btn-${i}`);
+                if (i === idx) {
+                    btn.className = "px-3 py-2 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all border bg-sky-500/10 border-sky-500 text-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.1)] flex justify-between items-center";
+                } else {
+                    btn.className = "px-3 py-2 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all border bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white flex justify-between items-center";
+                }
+            }
+        }
+
+        // 4. Accordion FAQ logic
+        function toggleFaq(idx) {
+            const element = document.getElementById(`faq-content-${idx}`);
+            const icon = document.getElementById(`faq-icon-${idx}`);
+            if (element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+                icon.textContent = '×';
+                icon.classList.add('text-orange-500');
+            } else {
+                element.classList.add('hidden');
+                icon.textContent = '?';
+                icon.classList.remove('text-orange-500');
+            }
+        }
+    </script>
 </body>
 </html>
- 
